@@ -1,4 +1,4 @@
-package com.b2w.sw.model;
+package com.b2w.sw.server.model;
 
 public class Planet {
 

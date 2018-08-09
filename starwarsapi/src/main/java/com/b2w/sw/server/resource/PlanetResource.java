@@ -1,4 +1,4 @@
-package com.b2w.sw.resource;
+package com.b2w.sw.server.resource;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -16,14 +16,24 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.b2w.sw.model.Planet;
+import com.b2w.sgbd.DynamoDBClientSW;
+import com.b2w.sw.client.service.PlanetCliService;
+import com.b2w.sw.server.model.Planet;
 
 @Path("planets")
 public class PlanetResource {
+		
+	private DynamoDBClientSW entityDB;
+	
+	public PlanetResource() {
+		entityDB = new DynamoDBClientSW();
+	}
 	
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Planet> getAll() {
+    	
+//    	return entityDB.getAll();
     	return createAndLoadData();
     }
 
@@ -31,6 +41,8 @@ public class PlanetResource {
     @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Planet getByName(@PathParam("name") String name) {
+    	PlanetCliService cli = new PlanetCliService();
+    	cli.consulta(name);
     	for (Planet it : createAndLoadData()) {
 			if (it.getName() != null && it.getName().equals(name))
 				return it;
@@ -53,13 +65,12 @@ public class PlanetResource {
     		throw new WebApplicationException(Response
     				.status(Response.Status.CONFLICT)
     				.entity("Planeta já existe no cadastro").build());
-    		    	
+    		
+    	//Pegar nome completo do recurso
+    	//Remover o código do ID que esta fixo
+    	String uriRecurso = String.format("/starwarsapi/planets/%d", 100);
     	
-    	String uriRecurso = String.format("/planets/%d", 100);
-    	
-    	return Response.created(URI.create(uriRecurso))
-					//.header("Location", uriRecurso)
-					.build();
+    	return Response.created(URI.create(uriRecurso)).build();
     }
     
     @PUT
