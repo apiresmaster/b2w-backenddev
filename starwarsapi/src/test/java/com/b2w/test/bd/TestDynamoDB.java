@@ -36,26 +36,25 @@ public class TestDynamoDB {
 		assertNotNull(tbResult);
 	}
 
-//	@Test
+	@Test
 	public void adicionaItens() {
 
 		Planet marte = new Planet();
-		marte.setId(4L);
 		marte.setName("Marte");
-		marte.setWheater("Molhado");
+		marte.setWeather("Molhado");
 		marte.setGround("Planice");
 
 		Planet jupiter = new Planet();
-		jupiter.setId(5L);
 		jupiter.setName("Jupiter");
-		jupiter.setWheater("Humido");
+		jupiter.setWeather("Humido");
 		jupiter.setGround("Plano");
 
 		Planet plutao = new Planet();
-		plutao.setId(6L);
 		plutao.setName("Plutão");
-		plutao.setWheater("Seco");
+		plutao.setWeather("Seco");
 		plutao.setGround("Relevo");
+		
+		
 
 		clientDB.add(marte);
 		clientDB.add(jupiter);

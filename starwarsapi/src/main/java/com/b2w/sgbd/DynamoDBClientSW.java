@@ -73,7 +73,7 @@ public class DynamoDBClientSW implements Operacoes{
 		DynamoDBMapper mapper = new DynamoDBMapper(dynamoDBClient);
 		mapper.save(planet);
 	        
-        return mapper.load(Planet.class, planet.getId(), DynamoDBMapperConfig.ConsistentReads.CONSISTENT);
+        return mapper.load(Planet.class, planet.getName(), DynamoDBMapperConfig.ConsistentReads.CONSISTENT);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class DynamoDBClientSW implements Operacoes{
 		DynamoDBMapper mapper = new DynamoDBMapper(dynamoDBClient);
 		mapper.delete(planet);
 		
-		Planet isDeleted = mapper.load(Planet.class, planet.getId());
+		Planet isDeleted = mapper.load(Planet.class, planet.getName());
 		
 		return (isDeleted == null) ? true : false;
 	}

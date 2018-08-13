@@ -1,33 +1,41 @@
 package com.b2w.sgbd.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 @DynamoDBTable(tableName = Planet.TABLE_NAME)
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Planet {
 
 	public static final String TABLE_NAME = "Planet";
-	public static final String FIELDNAME_ID = "id";
+//	public static final String FIELDNAME_ID = "id";
 	public static final String FIELDNAME_NAME = "name";
-	public static final String FIELDNAME_WHEATER = "wheater";
+	public static final String FIELDNAME_WEATHER = "weather";
 	public static final String FIELDNAME_GROUND = "ground";
 	
-	private Long id;
+//	@XmlTransient()
+//	@JsonbTransient
+//	private Long id;
 	private String name;	
 	private String ground;	
-	private String wheater;
+	private String weather;
 	
-	@DynamoDBHashKey(attributeName = Planet.FIELDNAME_ID)
-	public Long getId() {
-		return id;
-	}
+//	@DynamoDBHashKey(attributeName = Planet.FIELDNAME_ID)
+//	@XmlTransient
+//	@JsonbTransient
+//	public Long getId() {
+//		return id;
+//	}
+//
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@DynamoDBAttribute(attributeName = Planet.FIELDNAME_NAME)
+	@DynamoDBHashKey(attributeName = Planet.FIELDNAME_NAME)
 	public String getName() {
 		return name;
 	}
@@ -36,7 +44,7 @@ public class Planet {
 		this.name = name;
 	}
 
-	@DynamoDBAttribute(attributeName = Planet.FIELDNAME_WHEATER)
+	@DynamoDBAttribute(attributeName = Planet.FIELDNAME_GROUND)
 	public String getGround() {
 		return ground;
 	}
@@ -45,13 +53,13 @@ public class Planet {
 		this.ground = ground;
 	}
 
-	@DynamoDBAttribute(attributeName = Planet.FIELDNAME_WHEATER)
-	public String getWheater() {
-		return wheater;
+	@DynamoDBAttribute(attributeName = Planet.FIELDNAME_WEATHER)
+	public String getWeather() {
+		return weather;
 	}
 
-	public void setWheater(String wheater) {
-		this.wheater = wheater;
+	public void setWeather(String wheater) {
+		this.weather = wheater;
 	}
 
 }
