@@ -1,8 +1,8 @@
-package com.b2w.sgbd;
+package com.b2w.entity;
 
 import java.util.List;
 
-import com.b2w.sgbd.model.Planet;
+import com.b2w.entity.model.Planet;
 
 /**
  * Realiza operações básicas em um model
@@ -22,9 +22,9 @@ public interface Operacoes {
 	
 	public List<Planet> getAll();
 	
-	public void add(Planet planet);
+	public Long add(Planet planet);
 	
 	public Planet update(Planet planet);
 	
-	public Boolean delete(Planet planet);
+	public void delete(Planet planet);
 }

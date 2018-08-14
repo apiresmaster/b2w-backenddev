@@ -1,4 +1,4 @@
-package com.b2w.sw.client.service;
+package com.b2w.service.client.service;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -6,7 +6,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import com.b2w.sw.client.model.PlanetCli;
+import com.b2w.service.client.model.PlanetCli;
 
 public class PlanetCliService {
 	
@@ -25,7 +25,7 @@ public class PlanetCliService {
 		this.client = ClientBuilder.newClient();  
 	}	
 	
-	public void consulta(String nome) {
+	public PlanetCli consulta(String nome) {
 				
 		//try {
 	
@@ -35,15 +35,6 @@ public class PlanetCliService {
 	 
 			PlanetCli output = invocationBuilder.get(PlanetCli.class);
 	 
-			//PlanetCli output = response.readEntity(PlanetCli.class);
-	
-			System.out.println("Output from Server .... \n");
-			System.out.println(output);
-	
-//		  } catch (Exception e) {
-//	
-//			e.printStackTrace();
-//	
-//		  }	
+			return output;	
 	}
 }
