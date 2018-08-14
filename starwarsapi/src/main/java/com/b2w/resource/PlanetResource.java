@@ -1,8 +1,6 @@
 package com.b2w.resource;
 
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -17,91 +15,61 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.commons.beanutils.BeanUtils;
-
-import com.b2w.entity.dao.PlanetDao;
 import com.b2w.entity.model.Planet;
-import com.b2w.service.client.service.PlanetCliService;
-import com.b2w.service.server.SwapiPlanetView;
+import com.b2w.resource.view.PlanetView;
 
-
+/**
+ * Resource to request information about Planet
+ * @author apiresmaster
+ *
+ */
 @Path(PlanetResource.PATH_PLANETS)
+@Produces(MediaType.APPLICATION_JSON)
 public class PlanetResource {
 	
 	public static final String PATH_PLANETS = "planets";
 		
-	private PlanetDao planetService;
+	private PlanetService planetService;
 	
 	public PlanetResource() {
-		planetService = new PlanetDao();
+		planetService = new PlanetService();
 	}
 	
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<SwapiPlanetView> getAll() {
+    public List<PlanetView> getAll() {
     	
-    	List<SwapiPlanetView> views = new ArrayList<SwapiPlanetView>();
-    	List<Planet> planets = planetService.getAll();
-    	try {
-    		for (Planet source : planets) {
-    			SwapiPlanetView target = new SwapiPlanetView(); 
-    			BeanUtils.copyProperties(source, target);
-    			PlanetCliService planetClient = new PlanetCliService();
-    			planetClient.consulta(target.getName());
-    			
-    			views.add(target);
-    		}
-			
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    	return views;
+    	return planetService.getAll();    	
     }
 
     @GET
     @Path("/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public SwapiPlanetView getByName(@PathParam("name") String name) {
+    public PlanetView getByName(@PathParam("name") String name) {
     	
-    	SwapiPlanetView view = new SwapiPlanetView();
-    	Planet origem = planetService.getByName(name);
-    	try {
-			BeanUtils.copyProperties(origem, view);
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
-    	return view;
+    	return planetService.getByName(name);
     }
     
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Planet planet) {
-    	if (planet.getName() == null || planet.getName().trim().equals("")) {
+    public Response add(PlanetView planetView) {
+    	
+    	if (planetView.getName() == null || planetView.getName().trim().equals("")) {
     		throw new WebApplicationException(Response
     					.status(Response.Status.BAD_REQUEST)
     					.entity("O nome do contato é obrigatório").build());
     	}
     	
-//    	if(createAndLoadData().contains(planet))
-//    		throw new WebApplicationException(Response
-//    				.status(Response.Status.CONFLICT)
-//    				.entity("Planeta já existe no cadastro").build());
+    	PlanetView exist = planetService.getByName(planetView.getName());
+    	
+    	if(!exist.getName().isEmpty())
+    		return Response.ok("/starwarsapi/planets/"+exist.getId()).build();
     	    	
-    	planetService.add(planet);
-    	//Pegar nome completo do recurso
-    	//Remover o código do ID que esta fixo
-    	String uriRecurso = String.format("/starwarsapi/planets/%d", planet.getId());
+    	planetService.add(planetView);
+    	String uriRecurso = String.format("/starwarsapi/planets/%d", planetView.getId());
     	
     	return Response.created(URI.create(uriRecurso)).build();
     }
     
     @PUT
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public void update(Planet planet) {
     	System.out.printf("objeto recebido com sucesso | %s", planet.getName());
@@ -109,10 +77,10 @@ public class PlanetResource {
     
     @DELETE
     @Path("/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public void delete(@PathParam("name") String name) {
+    public Response delete(@PathParam("name") String name) {
     	
-    	Planet p = planetService.getByName(name);
-    	planetService.delete(p);
+    	planetService.delete(name);
+    	    	
+    	return Response.noContent().build();
     }
 }

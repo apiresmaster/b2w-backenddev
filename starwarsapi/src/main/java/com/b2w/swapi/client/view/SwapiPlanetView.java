@@ -1,15 +1,15 @@
-package com.b2w.service.client.model;
+package com.b2w.swapi.client.view;
 
 import java.util.List;
 
 import javax.json.bind.annotation.JsonbProperty;
 
-public class PlanetCli {
+public class SwapiPlanetView {
 
 	private String name;
 	private List<String> films;
 	
-	public PlanetCli() {
+	public SwapiPlanetView() {
 		
 	}
 	
@@ -47,13 +47,19 @@ public class PlanetCli {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PlanetCli other = (PlanetCli) obj;
+		SwapiPlanetView other = (SwapiPlanetView) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "SwapiPlanetView [name=" + name + ", films=" + films + "]";
 	}	
+	
 	
 }

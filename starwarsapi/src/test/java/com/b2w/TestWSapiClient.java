@@ -10,22 +10,24 @@ import javax.ws.rs.core.MediaType;
 
 import org.junit.Test;
 
-import com.b2w.service.client.model.PlanetCli;
+import com.b2w.swapi.client.view.SwapiPlanetSearchView;
 
 public class TestWSapiClient {
 
 	@Test
-	public void getPlanetById() {
-		String URL_SERVICE = "https://swapi.co/api/planets/3/?format=json";
+	public void searchPlanetByName() {
+		String URL_SERVICE = "https://swapi.co/api/";
+		String API_RESOURCE = "planets/";
+		String API_QUERY_PARAM_NAME = "search";
+		String API_QUERY_PARAM_NAME_VALUE = "Alderaan";
 		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(URL_SERVICE);//.path("planets").path(String.valueOf(3));
+		WebTarget webTarget = client.target(URL_SERVICE).path(API_RESOURCE).queryParam(API_QUERY_PARAM_NAME, API_QUERY_PARAM_NAME_VALUE);
 		 
-		Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON);
- 
+		Invocation.Builder invocationBuilder =  webTarget.request(MediaType.APPLICATION_JSON); 
 		@SuppressWarnings("unused")
-		PlanetCli output = invocationBuilder.get(PlanetCli.class);
+		SwapiPlanetSearchView output = invocationBuilder.get(SwapiPlanetSearchView.class);
 		
-		System.out.println(output.getFilms().toString());
+		System.out.println("Filmes recuperados: "+output.getResults().get(0).getFilms().toString());
 		Integer ok = 200;
 		assertEquals(ok, Integer.valueOf(invocationBuilder.head().getStatus()));
 	}

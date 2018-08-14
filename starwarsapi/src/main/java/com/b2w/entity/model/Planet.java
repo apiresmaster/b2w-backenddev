@@ -11,6 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * Planet model to persistence information.
+ * @author apiresmaster
+ *
+ */
 @Entity
 @Table(uniqueConstraints = 
 @UniqueConstraint(columnNames = "name", name = "name_uk"))

@@ -1,12 +1,17 @@
-package com.b2w.service.server;
+package com.b2w.resource.view;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ * Render view of Planet
+ * @author apiresmaster
+ *
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SwapiPlanetView {
+public class PlanetView {
 
 	@XmlTransient()
 	@JsonbTransient
@@ -20,11 +25,11 @@ public class SwapiPlanetView {
 	
 	private Integer quantidadeFilmes;
 
-	public SwapiPlanetView() {
-		
+	public PlanetView() {
+		this.name = new String();
 	}
 	
-	public SwapiPlanetView(Long id, String name, String ground, String weather, Integer quantidadeFilmes) {
+	public PlanetView(Long id, String name, String ground, String weather, Integer quantidadeFilmes) {
 		this.id = id;
 		this.name = name;
 		this.ground = ground;
@@ -90,7 +95,7 @@ public class SwapiPlanetView {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SwapiPlanetView other = (SwapiPlanetView) obj;
+		PlanetView other = (PlanetView) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

@@ -22,10 +22,10 @@ public class PlanetDao implements Operacoes {
 	public Planet getByName(String name) {
 		try {
 		
-		return PersistenceUtil.getEntityManager()
-					.createQuery("select p from Planet p where p.name = :name", Planet.class)
-					.setParameter("name", name)
-					.getSingleResult();
+			return PersistenceUtil.getEntityManager()
+						.createQuery("select p from Planet p where p.name = :name", Planet.class)
+						.setParameter("name", name)
+						.getSingleResult();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new QueryException(e);
@@ -84,7 +84,7 @@ public class PlanetDao implements Operacoes {
 		
 		}catch (Exception e) {
 			e.getStackTrace();
-			em.getTransaction().rollback();
+			em.getTransaction().rollback();			
 		
 		}finally {
 			em.close();
