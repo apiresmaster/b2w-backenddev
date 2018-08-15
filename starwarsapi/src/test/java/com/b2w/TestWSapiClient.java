@@ -28,7 +28,7 @@ public class TestWSapiClient {
 		SwapiPlanetSearchView output = invocationBuilder.get(SwapiPlanetSearchView.class);
 		
 		System.out.println("Filmes recuperados: "+output.getResults().get(0).getFilms().toString());
-		Integer ok = 200;
-		assertEquals(ok, Integer.valueOf(invocationBuilder.head().getStatus()));
+		
+		assertEquals(output.getResults().get(0).getFilms().size(), 1);
 	}
 }

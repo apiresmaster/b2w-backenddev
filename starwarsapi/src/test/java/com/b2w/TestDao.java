@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.b2w.entity.dao.PlanetDao;
 import com.b2w.entity.model.Planet;
 
-public class TestDynamoDB {
+public class TestDao {
 
 	@Test
 	public void adicionaItens() {
@@ -39,7 +39,7 @@ public class TestDynamoDB {
 		assertEquals(true, true);
 	}
 
-//	@Test
+	@Test
 	public void pegaItemPorId() {
 		
 		PlanetDao dao = new PlanetDao();
@@ -48,7 +48,7 @@ public class TestDynamoDB {
 		assertNotNull(result.getName());
 	}
 
-//	@Test
+	@Test
 	public void pegaTodosRegistros() {
 
 		PlanetDao dao = new PlanetDao();
@@ -57,7 +57,7 @@ public class TestDynamoDB {
 		assertNotNull(result);
 	}
 
-//	@Test
+	@Test
 	public void pegaPorNome() {
 		
 		String marte = "Marte";

@@ -1,6 +1,5 @@
 package com.b2w.resource;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,8 @@ import com.b2w.resource.view.PlanetView;
 import com.b2w.swapi.client.SwapiPlanetClient;
 import com.b2w.swapi.client.view.SwapiPlanetSearchView;
 
-public class PlanetService  implements Serializable {
-
+public class PlanetService {
+    
 	private PlanetDao dao;
 	public PlanetService() {
 		dao = new PlanetDao();
@@ -34,7 +33,9 @@ public class PlanetService  implements Serializable {
     			SwapiPlanetClient swapiPlanetClient = new SwapiPlanetClient(MediaType.APPLICATION_JSON_TYPE);
     			SwapiPlanetSearchView swapiSearchResult = swapiPlanetClient.getPlanetByName(target.getName());
     			
-    			target.setQuantidadeFilmes(swapiSearchResult.getResults().get(0).getFilms().size());
+    			if (swapiSearchResult.getResults().size() > 0)
+    				target.setQuantidadeFilmes(swapiSearchResult.getResults().get(0).getFilms().size());
+    			
     			viewResults.add(target);
     		}
 		    	
@@ -59,20 +60,34 @@ public class PlanetService  implements Serializable {
 		} catch (IllegalAccessException | InvocationTargetException | QueryException e) {
 			
 			e.printStackTrace();
-			 view = new PlanetView();
 		}
     	
     	return view;
 	}
-	public void delete(String name) {
+	
+	public PlanetView getById(Long id) {
 		
-    	Planet p = dao.getByName(name);
-    	dao.delete(p);    	
+		PlanetView view = new PlanetView();
+    	Planet origem;
+
+    	try {
+    		origem = dao.getById(id);
+    		
+			BeanUtils.copyProperties(view, origem);
+			
+		} catch (IllegalAccessException | InvocationTargetException | QueryException e) {
+			
+			e.printStackTrace();
+		}
+    	
+    	return view;
 	}
-	public void add(PlanetView planetView) {
+
+	public Long add(PlanetView planetView) {
+		
+		Planet planet = new Planet();
 		
 		try {
-			Planet planet = null;
 			BeanUtils.copyProperties(planet, planetView);		
 			dao.add(planet);
 			
@@ -80,8 +95,13 @@ public class PlanetService  implements Serializable {
 			
 			e.printStackTrace();
 		}
-				
+		
+		return planet.getId();
 	}
 
-	
+	public void delete(String name) {
+		
+    	Planet p = dao.getByName(name);
+    	dao.delete(p);    	
+	}
 }

@@ -1,6 +1,8 @@
 package com.b2w.resource.view;
 
+import javax.json.bind.annotation.JsonbPropertyOrder;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.json.bind.config.PropertyOrderStrategy;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -11,6 +13,7 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@JsonbPropertyOrder(PropertyOrderStrategy.LEXICOGRAPHICAL)
 public class PlanetView {
 
 	@XmlTransient()
@@ -23,18 +26,21 @@ public class PlanetView {
 
 	private String weather;
 	
-	private Integer quantidadeFilmes;
-
+	private Integer countFilms;
+	
+	private String URI;
+	
 	public PlanetView() {
 		this.name = new String();
 	}
 	
-	public PlanetView(Long id, String name, String ground, String weather, Integer quantidadeFilmes) {
+	public PlanetView(Long id, String name, String ground, String weather, Integer countFilms, String URI) {
 		this.id = id;
 		this.name = name;
 		this.ground = ground;
 		this.weather = weather;
-		this.quantidadeFilmes = quantidadeFilmes;
+		this.countFilms = countFilms;
+		this.URI = URI;
 	}
 
 	@XmlTransient
@@ -72,11 +78,19 @@ public class PlanetView {
 	}
 
 	public Integer getQuantidadeFilmes() {
-		return quantidadeFilmes;
+		return countFilms;
 	}
 
 	public void setQuantidadeFilmes(Integer quantidadeFilmes) {
-		this.quantidadeFilmes = quantidadeFilmes;
+		this.countFilms = quantidadeFilmes;
+	}	
+
+	public String getURI() {
+		return URI;
+	}
+
+	public void setURI(String uRI) {
+		URI = uRI;
 	}
 
 	@Override
@@ -103,6 +117,5 @@ public class PlanetView {
 			return false;
 		return true;
 	}
-
 	
 }

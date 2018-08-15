@@ -19,7 +19,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints = 
 @UniqueConstraint(columnNames = "name", name = "name_uk"))
-public class Planet implements Serializable{
+public class Planet implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)	
